@@ -1,5 +1,7 @@
 Dart library for splitting strings into sentences via a stream or iterator. This library is based on the sentence splitter used in the [kokoro tts framework.](https://github.com/hexgrad/kokoro)
 
+View on pub: https://pub.dev/packages/sentence_splitter
+
 ## Usage
 ```dart
 final text =
@@ -34,7 +36,6 @@ for (final sentence in text.splitSentences()) {
 ## Using a stream transformer
 Splitting a sentence by a stream allows chunks to be added when they become available. 
 The stream will always hold on to the last chunk in order to make sure the sentence is complete before splitting.
-
 ```dart
 
 /// Add text in chunks, the stream will emit the sentences as they are complete
