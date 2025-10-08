@@ -1,14 +1,11 @@
 name: sentence_splitter
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: Dart library for splitting strings into sentences via a stream or iterator. 
+version: 0.0.1
+repository: https://github.com/D-James-GH/sentence_splitter.git
 
 environment:
   sdk: ^3.9.2
 
-# Add regular dependencies here.
-dependencies:
-  # path: ^1.9.0
 
 dev_dependencies:
   lints: ^6.0.0

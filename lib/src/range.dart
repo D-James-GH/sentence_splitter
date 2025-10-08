@@ -1,7 +1,15 @@
+/// {@template range}
+/// Range of a text.
+/// {@endtemplate}
 class Range {
+  /// Start index of the text.
   final int start;
+
+  /// End index of the text.
   final int end;
-  Range(this.start, this.end);
+
+  /// {@macro range}
+  const Range({required this.start, required this.end});
 
   @override
   String toString() {

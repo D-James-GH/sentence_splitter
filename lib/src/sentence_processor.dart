@@ -9,13 +9,13 @@
 import 'dart:math' as math;
 
 /// Gets the next sentence. If the sentence is incomplete it returns the remaining text.
-({String sentence, bool isComplete, int boundaryEnd}) findFirstSentence(
+({String sentence, bool isComplete, int boundaryEnd}) findNextSentence(
   String text,
 ) {
   final buffer = text;
   int i = 0;
   final len = buffer.length;
-  List<String> stack = [];
+  final List<String> stack = [];
 
   // Helper to scan from the current index over trailing terminators and punctuation.
   ({int end, int nextNonSpace}) scanBoundary(int idx) {
@@ -116,8 +116,9 @@ import 'dart:math' as math;
       }
 
       // Special case: ellipsis that stands alone should be merged with the following sentence.
-      final sentence = buffer.substring(0, boundaryEnd + 1).trim();
-      if (sentence == '...' || sentence == '…') {
+      final sentence = buffer.substring(0, boundaryEnd + 1);
+      final trimmedSentence = sentence.trim();
+      if (trimmedSentence == '...' || trimmedSentence == '…') {
         ++i;
         continue;
       }

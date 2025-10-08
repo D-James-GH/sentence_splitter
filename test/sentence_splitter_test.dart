@@ -55,16 +55,17 @@ void main() {
 
       final res = () async {
         final sentences = <String>[];
-        await for (final sentence in input.stream.splitSentences()) {
+        await for (final sentence in input.stream.splitSentences().asString()) {
           sentences.add(sentence);
         }
         return sentences;
       }();
 
-      input.add("Hello, world.");
-      input.add(" This is a test. Where the sentences are incom");
-      input.add("plete at first. Let's see how it works.");
-      input.close();
+      input
+        ..add("Hello, world.")
+        ..add(" This is a test. Where the sentences are incom")
+        ..add("plete at first. Let's see how it works.")
+        ..close();
       expect(
         await res,
         equals([
@@ -78,14 +79,13 @@ void main() {
   });
 
   test('asynchronous stream await for', () async {
-    final streamer = StreamController<String>();
-    // Initial text
-    streamer.add("Hello, how are");
+    final streamer = StreamController<String>()..add("Hello, how are");
 
     // Consumes the stream asynchronously
     final sentences = <String>[];
     final consumeStream = () async {
-      await for (final sentence in streamer.stream.splitSentences()) {
+      await for (final sentence
+          in streamer.stream.splitSentences().asString()) {
         sentences.add(sentence);
       }
     }();
@@ -97,12 +97,11 @@ void main() {
       streamer.add(" This is a test. This is unfinish-");
     });
     Future.delayed(const Duration(milliseconds: 30), () {
-      streamer.add("ed.");
-      streamer.add(" Finished.");
+      streamer
+        ..add("ed.")
+        ..add(" Finished.");
     });
-    Future.delayed(const Duration(milliseconds: 40), () {
-      streamer.close();
-    });
+    Future.delayed(const Duration(milliseconds: 40), streamer.close);
 
     await consumeStream;
     expect(
@@ -121,19 +120,14 @@ void main() {
     final outputs = ["This is a test.", "This is another test."];
     final streamer = StreamController<String>();
 
-    final sentences = <String>[];
-    final consumeStream = () async {
-      await for (final sentence in streamer.stream.splitSentences()) {
-        sentences.add(sentence);
-      }
-    }();
+    final sentenceFuture = streamer.stream.splitSentences().asString().toList();
 
     for (final chunk in inputs) {
       streamer.add(chunk);
     }
     streamer.close();
 
-    await consumeStream;
+    final sentences = await sentenceFuture;
     expect(sentences, equals(outputs));
   });
 
@@ -155,19 +149,17 @@ void main() {
       test(testCase.name, () async {
         final streamer = StreamController<String>();
 
-        final sentences = <String>[];
-        final consumeStream = () async {
-          await for (final sentence in streamer.stream.splitSentences()) {
-            sentences.add(sentence);
-          }
-        }();
+        final sentenceFuture = streamer.stream
+            .splitSentences()
+            .asString()
+            .toList();
 
         for (final chunk in testCase.input) {
           streamer.add(chunk);
         }
         streamer.close();
 
-        await consumeStream;
+        final sentences = await sentenceFuture;
         expect(sentences, equals(testCase.target));
       });
     }
